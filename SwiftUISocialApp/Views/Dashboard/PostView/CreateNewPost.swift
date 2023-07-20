@@ -110,27 +110,28 @@ struct CreateNewPost: View {
             .padding(.vertical, 10)
         }
         .vAlign(.top)
-            .overlay(content: {
-                LoadingView(showProgress: $isLoading)
-            })
-            .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
-            .onChange(of: photoItem) { newValue in
-                if let newValue {
-                    Task {
-                        do {
-                            if let imgData = try await newValue.loadTransferable(type: Data.self), let img = UIImage(data: imgData), let compressedImgData = img.jpegData(compressionQuality: 0.5) {
-                                await MainActor.run(body: {
-                                    self.postImgData = compressedImgData
-                                    self.photoItem = nil
-                                })
-                            }
-                        } catch {
-                            
+        .padding(15)
+        .overlay(content: {
+            LoadingView(showProgress: $isLoading)
+        })
+        .photosPicker(isPresented: $showImagePicker, selection: $photoItem)
+        .onChange(of: photoItem) { newValue in
+            if let newValue {
+                Task {
+                    do {
+                        if let imgData = try await newValue.loadTransferable(type: Data.self), let img = UIImage(data: imgData), let compressedImgData = img.jpegData(compressionQuality: 0.5) {
+                            await MainActor.run(body: {
+                                self.postImgData = compressedImgData
+                                self.photoItem = nil
+                            })
                         }
+                    } catch {
+                        
                     }
                 }
             }
-            .alert(self.errorMsg, isPresented: $showError, actions: {})
+        }
+        .alert(self.errorMsg, isPresented: $showError, actions: {})
     }
     
     func createPost() {

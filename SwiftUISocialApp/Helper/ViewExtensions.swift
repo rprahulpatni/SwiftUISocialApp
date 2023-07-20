@@ -51,7 +51,3 @@ extension View {
             }
     }
 }
-
-extension TextField {
-    
-}

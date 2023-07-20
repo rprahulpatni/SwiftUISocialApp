@@ -88,6 +88,7 @@ struct LoginView: View {
         Task{
             do {
                 try await Auth.auth().signIn(withEmail: self.emailId, password: self.password)
+                try await fetchUserDetails()
             } catch {
                 await setError(error)
             }
@@ -104,7 +105,7 @@ struct LoginView: View {
         }
     }
     
-    func fetchUserDetails() async {
+    func fetchUserDetails() async throws{
         do {
             guard let userUID = Auth.auth().currentUser?.uid else {return}
             let userData = try await Firestore.firestore().collection("Users").document(userUID).getDocument(as: UserData.self)

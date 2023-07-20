@@ -15,7 +15,8 @@ struct PostsView: View {
     var body: some View {
         NavigationStack {
             ReusablePostsView(postData: $recentPostData)
-                .hAlign(.center).vAlign(.center)
+                .hAlign(.center)
+                .vAlign(.center)
                 .overlay(alignment: .bottomTrailing) {
                     Button(action: {
                         createNewPost.toggle()
@@ -42,11 +43,11 @@ struct PostsView: View {
                 }
                 .navigationTitle("Post's")
         }
-            .fullScreenCover(isPresented: $createNewPost, content: {
-                CreateNewPost { post in
-                    self.recentPostData.insert(post, at: 0)
-                }
-            })
+        .fullScreenCover(isPresented: $createNewPost, content: {
+            CreateNewPost { post in
+                self.recentPostData.insert(post, at: 0)
+            }
+        })
     }
 }
 

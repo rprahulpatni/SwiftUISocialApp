@@ -23,7 +23,7 @@ struct ReusableProfileView: View {
                     .frame(width: 100, height: 100)
                     .clipShape(Circle())
                     
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: 5) {
                         Text(user?.userName ?? "")
                             .font(.title)
                             .fontWeight(.semibold)
