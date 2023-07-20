@@ -22,7 +22,7 @@ struct ProfileView: View {
         NavigationStack{
             VStack {
                 if myProfile != nil {
-                    ReusableProfileView(myProfile: self.myProfile)
+                    ReusableProfileView(user: self.myProfile)
                         .refreshable {
                             self.myProfile = nil
                             await fetchUserDetails()
@@ -63,10 +63,6 @@ struct ProfileView: View {
             guard let userUID = Auth.auth().currentUser?.uid else {return}
             let userData = try await Firestore.firestore().collection("Users").document(userUID).getDocument(as: UserData.self)
             await MainActor.run(body: {
-//                self.userUID = userUID
-//                self.userProfileName = userData.userName
-//                self.userProfilePic = userData.userProfilePic
-//                self.logStatus = true
                 self.myProfile = userData
             })
         } catch {

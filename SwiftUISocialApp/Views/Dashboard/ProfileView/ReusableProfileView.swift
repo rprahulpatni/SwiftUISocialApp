@@ -9,13 +9,13 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct ReusableProfileView: View {
-    var myProfile: UserData?
-    
+    var user: UserData?
+    @State private var fetchedPosts: [Post] = []
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack {
                 HStack(spacing: 12) {
-                    WebImage(url: URL(string: self.myProfile?.userProfilePic ?? "")).placeholder{
+                    WebImage(url: URL(string: self.user?.userProfilePic ?? "")).placeholder{
                         Image(systemName: "person.circle.fill")
                             .resizable()
                     }
@@ -24,15 +24,15 @@ struct ReusableProfileView: View {
                     .clipShape(Circle())
                     
                     VStack(alignment: .leading, spacing: 12) {
-                        Text(myProfile?.userName ?? "")
+                        Text(user?.userName ?? "")
                             .font(.title)
                             .fontWeight(.semibold)
-                        Text(myProfile?.userBio ?? "")
+                        Text(user?.userBio ?? "")
                             .font(.caption)
                             .foregroundColor(.gray)
                             .lineLimit(3)
-                        if let bioLink = URL(string: self.myProfile?.userBioLink ?? "") {
-                            Link(self.myProfile?.userBioLink ?? "", destination: bioLink)
+                        if let bioLink = URL(string: self.user?.userBioLink ?? "") {
+                            Link(self.user?.userBioLink ?? "", destination: bioLink)
                                 .font(.callout)
                                 .foregroundColor(.blue)
                                 .lineLimit(1)
@@ -46,6 +46,8 @@ struct ReusableProfileView: View {
                     .foregroundColor(.black)
                     .hAlign(.leading)
                     .padding(.vertical, 15)
+                
+                ReusablePostsView(basedOnUID: true, uid: self.user?.userUID ?? "", postData: $fetchedPosts)
             }
         }
     }
