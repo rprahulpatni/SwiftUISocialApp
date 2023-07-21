@@ -22,7 +22,7 @@ struct ProfileView: View {
         NavigationStack{
             VStack {
                 if myProfile != nil {
-                    ReusableProfileView(user: self.myProfile)
+                    ReusableProfileView(user: self.myProfile, isFromMyProfile: true)
                         .refreshable {
                             self.myProfile = nil
                             await fetchUserDetails()
@@ -31,7 +31,7 @@ struct ProfileView: View {
                     ProgressView()
                 }
             }
-            .padding(15)
+            //.padding(15)
             .navigationTitle("My Profile")
             .toolbar{
                 ToolbarItem(placement: .navigationBarTrailing) {

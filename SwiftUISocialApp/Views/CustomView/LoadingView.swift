@@ -31,3 +31,19 @@ struct LoadingView_Previews: PreviewProvider {
         LoadingView(showProgress: .constant(false))
     }
 }
+
+struct KeyboardDoneButton: View {
+    let onDone: () -> Void
+    
+    var body: some View {
+        HStack {
+            Spacer()
+            Button("Done") {
+                onDone()
+            }
+            .padding(.horizontal)
+        }
+        .frame(height: 44)
+        .background(Color(UIColor.systemBackground))
+    }
+}

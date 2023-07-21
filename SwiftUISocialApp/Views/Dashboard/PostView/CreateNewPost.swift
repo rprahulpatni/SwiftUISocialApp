@@ -110,7 +110,7 @@ struct CreateNewPost: View {
             .padding(.vertical, 10)
         }
         .vAlign(.top)
-        .padding(15)
+        //.padding(15)
         .overlay(content: {
             LoadingView(showProgress: $isLoading)
         })

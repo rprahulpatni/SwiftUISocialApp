@@ -32,13 +32,18 @@ struct LoginView: View {
                 .font(.title3)
                 .hAlign(.leading)
             VStack(spacing: 16) {
-                TextField("Email", text: $emailId)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.7))
-                    .padding(.top, 25)
-                SecureField("Password", text: $password)
-                    .textContentType(.emailAddress)
-                    .border(1, .gray.opacity(0.7))
+                Group{
+                    TextField("Email", text: $emailId)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.7))
+                        .padding(.top, 25)
+                    SecureField("Password", text: $password)
+                        .textContentType(.emailAddress)
+                        .border(1, .gray.opacity(0.7))
+                }
+                .autocapitalization(.none)
+                .keyboardType(.emailAddress)
+                
                 Button("Reset Password", action: {
                     resetPassword()
                 })
@@ -70,6 +75,9 @@ struct LoginView: View {
             }
             .font(.callout)
             .vAlign(.bottom)
+        }
+        .onTapGesture {
+            closeAllKeyboards()
         }
         .vAlign(.top)
         .padding(15)

@@ -10,11 +10,14 @@ import SDWebImageSwiftUI
 
 struct ReusableProfileView: View {
     var user: UserData?
+    var isFromMyProfile: Bool = false
+
     @State private var fetchedPosts: [Post] = []
+    
     var body: some View {
         ScrollView(.vertical, showsIndicators: false) {
             LazyVStack {
-                HStack(spacing: 12) {
+                HStack(spacing: 10) {
                     WebImage(url: URL(string: self.user?.userProfilePic ?? "")).placeholder{
                         Image(systemName: "person.circle.fill")
                             .resizable()
@@ -39,16 +42,19 @@ struct ReusableProfileView: View {
                         }
                     }
                 }
-                
+                .hAlign(.leading)
+                .padding(.all, 15)
+
                 Text("Post's")
                     .font(.title2)
                     .fontWeight(.semibold)
                     .foregroundColor(.black)
                     .hAlign(.leading)
-                    .padding(.vertical, 15)
+                    .padding(.leading, 15)
                 
                 ReusablePostsView(basedOnUID: true, uid: self.user?.userUID ?? "", postData: $fetchedPosts)
             }
+            .toolbar(isFromMyProfile == true ? .visible : .hidden , for: .tabBar)
         }
     }
 }

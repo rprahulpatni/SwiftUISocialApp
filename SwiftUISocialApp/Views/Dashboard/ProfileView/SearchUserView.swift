@@ -12,12 +12,12 @@ import FirebaseFirestore
 struct SearchUserView: View {
     @State private var fetchedUsers: [UserData] = []
     @State private var searchText: String = ""
-    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
         List{
             ForEach(fetchedUsers) { user in
                 NavigationLink {
-                    ReusableProfileView(user: user)
+                    ReusableProfileView(user: user, isFromMyProfile: false)
                 } label: {
                     Text(user.userName)
                         .font(.callout)
@@ -26,6 +26,7 @@ struct SearchUserView: View {
             }
         }
         .listStyle(.plain)
+        .toolbar(.hidden, for: .tabBar)
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle("Search User")
         .searchable(text: $searchText)
@@ -39,13 +40,6 @@ struct SearchUserView: View {
                 self.fetchedUsers = []
             }
         })
-//        .toolbar {
-//            ToolbarItem(placement: .navigationBarTrailing) {
-//                Button("Cancel", action: {
-//                    dismiss()
-//                }).tint(.red)
-//            }
-//        }
     }
     
     func searchUsers() async {

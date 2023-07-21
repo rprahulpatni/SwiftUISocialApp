@@ -83,6 +83,9 @@ struct SignUpView: View {
             }
         }
         .alert(self.errorMsg, isPresented: $showError, actions: {})
+        .onTapGesture {
+            closeAllKeyboards()
+        }
     }
     
     @ViewBuilder
@@ -106,22 +109,27 @@ struct SignUpView: View {
                 showImagePicker.toggle()
             }
             .padding(.top, 25)
-            TextField("Name", text: $userName)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.7))
-            TextField("Email", text: $userEmailId)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.7))
-            SecureField("Password", text: $userPassword)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.7))
-            TextField("About you", text: $userBio,axis: .vertical)
-                .frame(minHeight: 100, alignment: .top)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.7))
-            TextField("Bio Link (Optional)", text: $userBioLink)
-                .textContentType(.emailAddress)
-                .border(1, .gray.opacity(0.7))
+            Group{
+                TextField("Name", text: $userName)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.7))
+                TextField("Email", text: $userEmailId)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.7))
+                SecureField("Password", text: $userPassword)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.7))
+                TextField("About you", text: $userBio,axis: .vertical)
+                    .frame(minHeight: 100, alignment: .top)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.7))
+                TextField("Bio Link (Optional)", text: $userBioLink)
+                    .textContentType(.emailAddress)
+                    .border(1, .gray.opacity(0.7))
+            }
+            .autocapitalization(.none)
+            .keyboardType(.emailAddress)
+            
             Button(action: {
                 registerUser()
             }, label: {
